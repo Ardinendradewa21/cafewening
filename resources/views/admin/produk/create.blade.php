@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Produk')
+@section('title', 'Tambah Produk')
 
 @push('styles')
     <style>
@@ -82,7 +82,7 @@
 
         .btn-submit {
             padding: 0.75rem 2rem;
-            background: linear-gradient(135deg, #f6ad55, #dd6b20);
+            background: linear-gradient(135deg, #48bb78, #38a169);
             color: white;
             border: none;
             border-radius: 8px;
@@ -93,7 +93,7 @@
 
         .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(246, 173, 85, 0.3);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.3);
         }
 
         .btn-cancel {
@@ -126,25 +126,6 @@
             font-size: 0.875rem;
             margin-top: 0.25rem;
         }
-
-        .current-info {
-            background: #e6fffa;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid #38b2ac;
-        }
-
-        .current-info h3 {
-            color: #234e52;
-            margin: 0 0 0.5rem 0;
-            font-size: 1rem;
-        }
-
-        .current-info p {
-            color: #285e61;
-            margin: 0;
-        }
     </style>
 @endpush
 
@@ -152,14 +133,9 @@
     <div class="form-container">
         <div class="form-header">
             <h2 class="form-title">
-                <i data-lucide="edit"></i>
-                Edit Produk
+                <i data-lucide="plus-circle"></i>
+                Tambah Produk Baru
             </h2>
-        </div>
-
-        <div class="current-info">
-            <h3>Produk yang sedang diedit:</h3>
-            <p><strong>{{ $product->name }}</strong> - Rp{{ number_format($product->price, 0, ',', '.') }}</p>
         </div>
 
         @if ($errors->any())
@@ -178,14 +154,12 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.produk.update', $product) }}" method="POST">
+        <form action="{{ route('admin.produk.store') }}" method="POST">
             @csrf
-            @method('PUT')
 
             <div class="form-group">
                 <label for="name" class="form-label">Nama Produk</label>
-                <input type="text" id="name" name="name" class="form-input"
-                    value="{{ old('name', $product->name) }}" required>
+                <input type="text" id="name" name="name" class="form-input" value="{{ old('name') }}" required>
                 @error('name')
                     <div class="error-text">{{ $message }}</div>
                 @enderror
@@ -195,14 +169,10 @@
                 <label for="category" class="form-label">Kategori</label>
                 <select id="category" name="category" class="form-select" required>
                     <option value="">Pilih Kategori</option>
-                    <option value="coffe" {{ old('category', $product->category) == 'coffe' ? 'selected' : '' }}>Makanan
-                    </option>
-                    <option value="tea" {{ old('category', $product->category) == 'tea' ? 'selected' : '' }}>Minuman
-                    </option>
-                    <option value="food" {{ old('category', $product->category) == 'food' ? 'selected' : '' }}>Snack
-                    </option>
-                    <option value="dessert" {{ old('category', $product->category) == 'dessert' ? 'selected' : '' }}>
-                        Dessert</option>
+                    <option value="Makanan" {{ old('category') == 'Makanan' ? 'selected' : '' }}>Makanan</option>
+                    <option value="Minuman" {{ old('category') == 'Minuman' ? 'selected' : '' }}>Minuman</option>
+                    <option value="Snack" {{ old('category') == 'Snack' ? 'selected' : '' }}>Snack</option>
+                    <option value="Dessert" {{ old('category') == 'Dessert' ? 'selected' : '' }}>Dessert</option>
                 </select>
                 @error('category')
                     <div class="error-text">{{ $message }}</div>
@@ -211,8 +181,8 @@
 
             <div class="form-group">
                 <label for="price" class="form-label">Harga (Rp)</label>
-                <input type="number" id="price" name="price" class="form-input"
-                    value="{{ old('price', $product->price) }}" min="0" step="1000" required>
+                <input type="number" id="price" name="price" class="form-input" value="{{ old('price') }}"
+                    min="0" step="1000" required>
                 @error('price')
                     <div class="error-text">{{ $message }}</div>
                 @enderror
@@ -220,8 +190,8 @@
 
             <div class="form-group">
                 <label for="stock" class="form-label">Stok</label>
-                <input type="number" id="stock" name="stock" class="form-input"
-                    value="{{ old('stock', $product->stock) }}" min="0" required>
+                <input type="number" id="stock" name="stock" class="form-input" value="{{ old('stock') }}"
+                    min="0" required>
                 @error('stock')
                     <div class="error-text">{{ $message }}</div>
                 @enderror
@@ -229,8 +199,8 @@
 
             <div class="form-group">
                 <label for="icon" class="form-label">Ikon (Opsional)</label>
-                <input type="text" id="icon" name="icon" class="form-input"
-                    value="{{ old('icon', $product->icon) }}" placeholder="🍔 atau emoji lainnya">
+                <input type="text" id="icon" name="icon" class="form-input" value="{{ old('icon') }}"
+                    placeholder="🍔 atau emoji lainnya">
                 @error('icon')
                     <div class="error-text">{{ $message }}</div>
                 @enderror
@@ -238,7 +208,7 @@
 
             <div class="form-buttons">
                 <button type="submit" class="btn-submit">
-                    Update Produk
+                    Simpan Produk
                 </button>
                 <a href="{{ route('admin.produk.index') }}" class="btn-cancel">
                     Batal

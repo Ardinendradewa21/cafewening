@@ -60,13 +60,25 @@
             color: #4a5568;
             background-color: #e2e8f0;
             margin-right: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background-color: #cbd5e0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 1.5rem;
         }
     </style>
 @endpush
 
 @section('content')
     <div class="form-container">
-        <h2 class="section-title">Formulir Tambah Produk Baru</h2>
+        <h2 class="section-title">Tambah Produk Baru</h2>
 
         {{-- Form ini akan mengirim data ke fungsi 'store' di ProductController --}}
         <form action="{{ route('admin.produk.store') }}" method="POST">
@@ -84,13 +96,18 @@
             </div>
 
             <div class="form-group">
+                <label for="stock" class="form-label">Stok</label>
+                <input type="number" name="stock" id="stock" class="form-control" required min="0">
+            </div>
+
+            <div class="form-group">
                 <label for="category" class="form-label">Kategori</label>
                 <input type="text" name="category" id="category" class="form-control" required>
             </div>
 
             <div class="form-group">
                 <label for="icon" class="form-label">Ikon (Emoji)</label>
-                <input type="text" name="icon" id="icon" class="form-control">
+                <input type="text" name="icon" id="icon" class="form-control" placeholder="Contoh: 📱">
             </div>
 
             <div>

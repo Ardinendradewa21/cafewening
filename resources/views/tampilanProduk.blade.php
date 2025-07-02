@@ -151,6 +151,7 @@
                         <th>Ikon</th>
                         <th>Nama Produk</th>
                         <th>Kategori</th>
+                        <th>Stok</th>
                         <th>Harga</th>
                         <th>Aksi</th>
                     </tr>
@@ -162,6 +163,7 @@
                             <td>{{ $product->icon }}</td>
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->category }}</td>
+                            <td>{{ $product->stock }}</td>
                             <td>Rp{{ number_format($product->price, 0, ',', '.') }}</td>
                             <td>
                                 <div class="action-buttons">
@@ -180,7 +182,7 @@
                     @empty
                         {{-- Tampilan jika tidak ada produk sama sekali --}}
                         <tr>
-                            <td colspan="5" style="text-align: center; padding: 2rem;">
+                            <td colspan="6" style="text-align: center; padding: 2rem;">
                                 Belum ada data produk.
                             </td>
                         </tr>

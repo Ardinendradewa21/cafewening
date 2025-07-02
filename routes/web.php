@@ -29,7 +29,6 @@ Route::get('/', [AuthenticatedSessionController::class, 'create'])
 
 require __DIR__ . '/auth.php'; // Route untuk login, logout, dll dari Breeze
 
-
 // --- BAGIAN 2: RUTE UNTUK KASIR ---
 Route::prefix('kasir')->name('kasir.')->middleware(['auth', 'role:kasir'])->group(function () {
     Route::get('/', function () {
@@ -37,19 +36,17 @@ Route::prefix('kasir')->name('kasir.')->middleware(['auth', 'role:kasir'])->grou
         return view('tampilanKasir', ['products' => $products]);
     })->name('dashboard');
 
-    // FIXED: Route untuk checkout (POST method)
+    // Route untuk checkout (POST method)
     Route::post('/checkout', [TransactionController::class, 'store'])->name('checkout.store');
 
-    // FIXED: Route untuk keuangan dengan prefix yang benar
+    // Route untuk keuangan dengan prefix yang benar
     Route::get('/keuangan', [KeuanganController::class, 'index'])->name('keuangan.index');
 });
 
 // --- BAGIAN 2B: RUTE TAMBAHAN UNTUK KEUANGAN (GLOBAL ACCESS) ---
-// Jika Anda ingin route keuangan bisa diakses tanpa prefix kasir, tambahkan ini:
 Route::middleware(['auth'])->group(function () {
     Route::get('/keuangan', [KeuanganController::class, 'index'])->name('keuangan.index');
 });
-
 
 // --- BAGIAN 3: RUTE UNTUK DAPUR ---
 Route::middleware(['auth', 'role:dapur'])->group(function () {
@@ -58,16 +55,36 @@ Route::middleware(['auth', 'role:dapur'])->group(function () {
     Route::post('/api/dapur/orders/{transaction}/update-status', [DapurController::class, 'updateStatus']);
 });
 
-
 // --- BAGIAN 4: RUTE UNTUK ADMIN ---
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+    // Dashboard
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+    // Inventory
     Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
     Route::post('/inventory/update/{product}', [InventoryController::class, 'update'])->name('inventory.update');
+
+    // Pesanan
     Route::get('/pesanan', [OrderController::class, 'index'])->name('pesanan.index');
+
+    // Laporan
     Route::get('/laporan', [AdminReportController::class, 'index'])->name('laporan.index');
 
-    // Route untuk CRUD Produk dan User
-    Route::resource('produk', ProductController::class);
+    // CRUD Produk - Menggunakan Resource Route
+    Route::resource('produk', ProductController::class)->parameters([
+        'produk' => 'product'
+    ]);
+
+    // CRUD Users
     Route::resource('users', UserController::class);
+
+    // Route tambahan untuk debugging (opsional, bisa dihapus setelah testing)
+    Route::get('/test-routes', function () {
+        return [
+            'produk.index' => route('admin.produk.index'),
+            'produk.create' => route('admin.produk.create'),
+            'produk.show' => route('admin.produk.show', 1),
+            'produk.edit' => route('admin.produk.edit', 1),
+        ];
+    })->name('test.routes');
 });
