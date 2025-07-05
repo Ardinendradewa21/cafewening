@@ -45,7 +45,7 @@ class TransactionController extends Controller
                 'transaction_code' => $transactionCode,
                 'total_amount' => $totalAmount,
                 'user_id' => auth()->id(), // ID user yang sedang login
-                'status' => 'pending', // Status awal
+                'status' => 'baru', // Status awal
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
