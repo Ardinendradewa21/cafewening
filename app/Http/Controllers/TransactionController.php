@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use id;
 use App\Models\Product;
 use App\Models\Transaction;
-use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
+use App\Models\TransactionDetail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -45,7 +46,7 @@ class TransactionController extends Controller
                 'transaction_code' => $transactionCode,
                 'total_amount' => $totalAmount,
                 'user_id' => auth()->id(), // ID user yang sedang login
-                'status' => 'pending', // Status awal
+                'status' => 'baru', // Status awal
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
