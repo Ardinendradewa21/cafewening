@@ -1,10 +1,11 @@
+# render.yaml - Versi Final yang Sudah Benar
+
 services:
-  # Ini adalah Web Service untuk menjalankan Laravel
   - type: web
-    name: cafe-wening # Anda bisa ganti nama ini
+    name: cafe-wening
     env: php
     plan: free
-    region: singapore # Lokasi server terdekat
+    region: singapore
     buildCommand: |
       composer install --no-dev --optimize-autoloader
       npm install
@@ -16,12 +17,6 @@ services:
       php artisan migrate --force
     startCommand: php artisan serve --host 0.0.0.0 --port $PORT
 
-  # Ini adalah Database PostgreSQL gratis
-  - type: pserv
-    name: cafe-wening-db
-    env: postgres
+databases:
+  - name: cafe-wening-db
     plan: free
-    region: singapore
-    disk:
-      name: postgres-data
-      sizeGB: 1
